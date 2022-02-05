@@ -25,6 +25,8 @@ module Anilibria
         end
       end
 
+      Faraday::Utils.default_space_encoding = '%20'
+
       DryTypes = Types::DryTypes
 
       API_VERSION = '2.13'.freeze
