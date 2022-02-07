@@ -8,12 +8,23 @@ module Anilibria
           attribute? :string, DryTypes::String.optional
         end
 
+        class Posters < Base
+          class Poster < Base
+            attribute? :url, DryTypes::String.optional
+            attribute? :raw_base64_file, DryTypes::String.optional
+          end
+
+          %i[small medium original].each do |size|
+            attribute? size, Poster
+          end
+        end
+
         class Player < Base
           class Playlist < Base
             attribute? :serie, DryTypes::Strict::Integer
             attribute? :created_timestamp, DryTypes::Timestamp
 
-            attribute? :hls do
+            attribute? :hls, Base do
               attribute? :fhd, DryTypes::String.optional
               attribute? :hd, DryTypes::String.optional
               attribute? :sd, DryTypes::String.optional
@@ -47,7 +58,6 @@ module Anilibria
               attribute? :name, DryTypes::Strict::String
               attribute? :announce, DryTypes::Array.of(DryTypes::Strict::String)
               attribute? :created_timestamp, DryTypes::Timestamp
-
               attribute? :files_list, DryTypes::Array.of(FilesList)
             end
 
@@ -56,7 +66,7 @@ module Anilibria
             attribute? :torrent_id, DryTypes::Strict::Integer
             attribute? :series, Title::Series
 
-            attribute? :quality do
+            attribute? :quality, Base do
               attribute? :string, DryTypes::Strict::String
               attribute? :type, DryTypes::Strict::String
               attribute? :resolution, DryTypes::Strict::Integer
@@ -82,7 +92,7 @@ module Anilibria
         attribute? :id, DryTypes::Strict::Integer
         attribute? :code, DryTypes::Strict::String
 
-        attribute? :names do
+        attribute? :names, Base do
           attribute? :ru, DryTypes::String.optional
           attribute? :en, DryTypes::String.optional
           attribute? :alternative, DryTypes::String.optional
@@ -90,24 +100,16 @@ module Anilibria
 
         attribute? :announce, DryTypes::String.optional
 
-        attribute? :status do
+        attribute? :status, Base do
           attribute? :string, DryTypes::Strict::String
           attribute? :code, DryTypes::Strict::Integer
         end
 
-        attribute? :posters do
-          %i[small medium original].each do |poster|
-            attribute? poster do
-              attribute? :url, DryTypes::String.optional
-              attribute? :raw_base64_file, DryTypes::String.optional
-            end
-          end
-        end
-
+        attribute? :posters, Posters
         attribute? :updated, DryTypes::Timestamp.optional
         attribute? :last_change, DryTypes::Timestamp.optional
 
-        attribute? :type do
+        attribute? :type, Base do
           attribute? :full_string, DryTypes::String.optional
           attribute? :string, DryTypes::String.optional
           attribute? :length, DryTypes::String.optional
@@ -118,7 +120,7 @@ module Anilibria
         attribute? :genres, DryTypes::Array.of(DryTypes::Strict::String)
         attribute? :team, Types::Team
 
-        attribute? :season do
+        attribute? :season, Base do
           attribute? :string, DryTypes::String.optional
           attribute? :code, DryTypes::Integer.optional
           attribute? :year, DryTypes::Integer.optional
@@ -128,7 +130,7 @@ module Anilibria
         attribute? :description, DryTypes::String.optional
         attribute? :in_favorites, DryTypes::Integer.optional
 
-        attribute? :blocked do
+        attribute? :blocked, Base do
           attribute? :blocked, DryTypes::Strict::Bool
           attribute? :bakanim, DryTypes::Strict::Bool
         end
