@@ -41,7 +41,10 @@ module Anilibria
       attr_reader :connection
 
       def initialize(url: ENDPOINT)
-        @connection = Faraday.new(url: url) do |f|
+        @connection = Faraday.new(
+          url: url,
+          headers: { 'User-Agent' => "anilibria-api-ruby/#{VERSION}" }
+        ) do |f|
           f.request :url_encoded
           f.response :json, parser_options: { symbolize_names: true }
         end
@@ -74,7 +77,7 @@ module Anilibria
       end
 
       def api_version
-        connection.get.headers['api-version']
+        connection.head.headers['API-Version']
       end
 
       private

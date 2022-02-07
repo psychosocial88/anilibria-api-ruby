@@ -32,11 +32,16 @@ Usage example:
 require 'anilibria/api'
 
 anilibria = Anilibria::Api::Client.new
+# => #<Anilibria::Api::Client:0x00007f25c52fc1b8 ...
 
-anilibria.get_years # => [1996, 1998, 2001, 2003, 2004, 2005, 2006, ...]
+anilibria.get_years
+# => [1996, 1998, 2001, 2003, 2004, 2005, 2006, 2007, 2008, 2009, ...
 
-title = anilibria.get_title(code: 'steinsgate') # => #<Anilibria::Api::Types::Title id=8674 ...
-title.names.en # => "Steins;Gate"
+title = anilibria.get_title(code: 'steinsgate')
+# => #<Anilibria::Api::Types::Title id=8674 code="steinsgate" ...
+
+title.names.en
+# => "Steins;Gate"
 ```
 
 `anilibria` object implements [AniLibria API methods](https://github.com/anilibria/docs/blob/master/api_v2.md#method-list) as is. All methods are available in *snake_case* notation. Same with the `title` object - it implements the [Title](https://github.com/anilibria/docs/blob/master/api_v2.md#возвращаемые-значения-при-запросе-информации-о-тайтле) specification.
@@ -46,17 +51,20 @@ title.names.en # => "Steins;Gate"
 The gem supports authorization:
 
 ```ruby
-# session = anilibria.auth('wrong@example.com', 'WrongPassword') # => nil
+# session = anilibria.auth('wrong@example.com', 'WrongPassword')
+# => nil
 
 # session = anilibria.auth!('wrong@example.com', 'WrongPassword')
-# (raises an error Anilibria::Api::Exceptions::AuthError)
+# raises an error Anilibria::Api::Exceptions::AuthError
 
-session = anilibria.auth('correct@example.com', 'CorrectPassword') # returns the session string
+session = anilibria.auth('correct@example.com', 'CorrectPassword')
+# => "VdZnNZRpEl9w2HcKNRyj1BWXLqdynpog"
 
-anilibria.add_favorite(title_id: 9114, session: session) # => true
+anilibria.add_favorite(title_id: 9114, session: session)
+# => true
 
 titles = anilibria.get_favorites(filter: 'id,code,names,description', session: session)
-# => [#<Anilibria::Api::Types::Title id=9114 code="shingeki-no-k...
+# => [#<Anilibria::Api::Types::Title id=9114 code="shingeki-no-kyojin-the-final-season-part-2" ...
 ```
 
 ### API Version
@@ -64,7 +72,8 @@ titles = anilibria.get_favorites(filter: 'id,code,names,description', session: s
 You can get the currently used version of [AniLibria API](https://github.com/anilibria/docs/blob/master/api_v2.md): 
 
 ```ruby
-anilibria.api_version # => "2.13.10"
+anilibria.api_version
+# => "2.13.10"
 ```
 
 ## Contributing
