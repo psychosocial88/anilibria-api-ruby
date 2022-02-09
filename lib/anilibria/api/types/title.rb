@@ -112,7 +112,7 @@ module Anilibria
         attribute? :type, Base do
           attribute? :full_string, DryTypes::String.optional
           attribute? :string, DryTypes::String.optional
-          attribute? :length, DryTypes::String.optional
+          attribute? :length, DryTypes::Integer.optional
           attribute? :series, DryTypes::Integer.optional
           attribute? :code, DryTypes::Integer.optional
         end
