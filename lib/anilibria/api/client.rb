@@ -63,7 +63,7 @@ module Anilibria
       def auth(mail, passwd)
         response = auth_response(mail, passwd)
 
-        return unless response[:key] == 'success'
+        return unless auth_successful?(response)
 
         response[:sessionId]
       end
@@ -71,7 +71,12 @@ module Anilibria
       def auth!(mail, passwd)
         response = auth_response(mail, passwd)
 
-        raise Exceptions::AuthError, response unless response[:key] == 'success'
+        unless auth_successful?(response)
+          raise(
+            Exceptions::AuthError.new(response),
+            'Failed authorization attempt'
+          )
+        end
 
         response[:sessionId]
       end
@@ -82,23 +87,34 @@ module Anilibria
 
       private
 
+      def check_response!(response)
+        return if response.status == 200
+
+        if !response.body.respond_to?(:to_hash) ||
+           !response.body[:error].respond_to?(:to_hash)
+          raise Exceptions::ResponseError.new(
+            'Unexpected response from API', response
+          )
+        end
+
+        raise Exceptions::ApiError.new(response), response.body.dig(:error, :message)
+      end
+
       def auth_response(mail, passwd)
         response = connection.post(
           AUTH_ENDPOINT,
           { mail: mail, passwd: passwd }
         )
 
-        JSON.parse(response.body, { symbolize_names: true })
+        begin
+          JSON.parse(response.body, { symbolize_names: true })
+        rescue JSON::ParserError
+          {}
+        end
       end
 
-      def check_response!(response)
-        return if response.status == 200
-
-        if !response.body.respond_to?(:to_hash) || !response.body.key?(:error)
-          raise Exceptions::ResponseError.new('Unexpected response from API', response)
-        end
-
-        raise Exceptions::ApiError, response
+      def auth_successful?(response)
+        response[:key] == 'success' && response.key?(:sessionId)
       end
     end
   end

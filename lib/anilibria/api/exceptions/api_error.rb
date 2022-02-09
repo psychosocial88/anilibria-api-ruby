@@ -7,7 +7,8 @@ module Anilibria
         def initialize(response)
           error = response.body[:error].to_h
           @code = error[:code]
-          super("#{error[:code]} #{error[:message]}", response)
+
+          super(error[:message], response)
         end
       end
     end

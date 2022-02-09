@@ -4,9 +4,10 @@ module Anilibria
       class ResponseError < Base
         attr_reader :response
 
-        def initialize(message, response)
+        def initialize(msg = nil, response = nil)
           @response = response
-          super(message)
+
+          super(msg)
         end
       end
     end

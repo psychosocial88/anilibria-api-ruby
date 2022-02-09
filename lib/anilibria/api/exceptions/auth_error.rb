@@ -2,13 +2,24 @@ module Anilibria
   module Api
     module Exceptions
       class AuthError < Base
-        attr_reader :err, :key, :mes
+        attr_reader :data
 
-        def initialize(response_body)
-          @err = response_body[:err]
-          @key = response_body[:key]
-          @mes = response_body[:mes]
+        def initialize(data = {})
+          @data = data
+
           super("#{mes} (#{key})")
+        end
+
+        def err
+          data[:err]
+        end
+
+        def mes
+          data[:mes]
+        end
+
+        def key
+          data[:key]
         end
       end
     end
