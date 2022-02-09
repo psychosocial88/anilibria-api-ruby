@@ -3,15 +3,15 @@ module Anilibria
     module Types
       class Title < Base
         class Series < Base
-          attribute? :first, DryTypes::Integer.optional
-          attribute? :last, DryTypes::Integer.optional
-          attribute? :string, DryTypes::String.optional
+          attribute? :first, T::Integer
+          attribute? :last, T::Integer
+          attribute? :string, T::String
         end
 
         class Posters < Base
           class Poster < Base
-            attribute? :url, DryTypes::String.optional
-            attribute? :raw_base64_file, DryTypes::String.optional
+            attribute? :url, T::String
+            attribute? :raw_base64_file, T::String
           end
 
           %i[small medium original].each do |size|
@@ -21,18 +21,18 @@ module Anilibria
 
         class Player < Base
           class Playlist < Base
-            attribute? :serie, DryTypes::Strict::Integer
-            attribute? :created_timestamp, DryTypes::Timestamp
+            attribute? :serie, T::Integer
+            attribute? :created_timestamp, T::Timestamp
 
             attribute? :hls, Base do
-              attribute? :fhd, DryTypes::String.optional
-              attribute? :hd, DryTypes::String.optional
-              attribute? :sd, DryTypes::String.optional
+              attribute? :fhd, T::String
+              attribute? :hd, T::String
+              attribute? :sd, T::String
             end
           end
 
-          attribute? :alternative_player, DryTypes::String.optional
-          attribute? :host, DryTypes::String.optional
+          attribute? :alternative_player, T::String
+          attribute? :host, T::String
           attribute? :series, Title::Series
 
           attribute?(
@@ -47,92 +47,92 @@ module Anilibria
           class Torrent < Base
             class Metadata < Base
               class FilesList < Base
-                attribute? :file, DryTypes::Strict::String
-                attribute? :size, DryTypes::Strict::Integer
-                attribute? :offset, DryTypes::Strict::Integer
+                attribute? :file, T::String
+                attribute? :size, T::Integer
+                attribute? :offset, T::Integer
               end
 
               undef hash
 
-              attribute? :hash, DryTypes::Strict::String
-              attribute? :name, DryTypes::Strict::String
-              attribute? :announce, DryTypes::Array.of(DryTypes::Strict::String)
-              attribute? :created_timestamp, DryTypes::Timestamp
+              attribute? :hash, T::String
+              attribute? :name, T::String
+              attribute? :announce, DryTypes::Array.of(T::String)
+              attribute? :created_timestamp, T::Timestamp
               attribute? :files_list, DryTypes::Array.of(FilesList)
             end
 
             undef hash
 
-            attribute? :torrent_id, DryTypes::Strict::Integer
+            attribute? :torrent_id, T::Integer
             attribute? :series, Title::Series
 
             attribute? :quality, Base do
-              attribute? :string, DryTypes::Strict::String
-              attribute? :type, DryTypes::Strict::String
-              attribute? :resolution, DryTypes::Strict::Integer
-              attribute? :encoder, DryTypes::Strict::String
-              attribute? :lq_audio, DryTypes::Strict::Bool
+              attribute? :string, T::String
+              attribute? :type, T::String
+              attribute? :resolution, T::Integer
+              attribute? :encoder, T::String
+              attribute? :lq_audio, T::Bool
             end
 
             %i[leechers seeders downloads total_size].each do |i|
-              attribute? i, DryTypes::Strict::Integer
+              attribute? i, T::Integer
             end
 
-            attribute? :url, DryTypes::Strict::String
-            attribute? :uploaded_timestamp, DryTypes::Timestamp
-            attribute? :hash, DryTypes::Strict::String
-            attribute? :metadata, DryTypes::Strict::Nil | Metadata
-            attribute? :raw_base64_file, DryTypes::String.optional
+            attribute? :url, T::String
+            attribute? :uploaded_timestamp, T::Timestamp
+            attribute? :hash, T::String
+            attribute? :metadata, Metadata.optional
+            attribute? :raw_base64_file, T::String
           end
 
           attribute? :series, Title::Series
           attribute? :list, DryTypes::Array.of(Torrent)
         end
 
-        attribute? :id, DryTypes::Strict::Integer
-        attribute? :code, DryTypes::Strict::String
+        attribute? :id, T::Integer
+        attribute? :code, T::String
 
         attribute? :names, Base do
-          attribute? :ru, DryTypes::String.optional
-          attribute? :en, DryTypes::String.optional
-          attribute? :alternative, DryTypes::String.optional
+          attribute? :ru, T::String
+          attribute? :en, T::String
+          attribute? :alternative, T::String
         end
 
-        attribute? :announce, DryTypes::String.optional
+        attribute? :announce, T::String
 
         attribute? :status, Base do
-          attribute? :string, DryTypes::Strict::String
-          attribute? :code, DryTypes::Strict::Integer
+          attribute? :string, T::String
+          attribute? :code, T::Integer
         end
 
         attribute? :posters, Posters
-        attribute? :updated, DryTypes::Timestamp.optional
-        attribute? :last_change, DryTypes::Timestamp.optional
+        attribute? :updated, T::Timestamp
+        attribute? :last_change, T::Timestamp
 
         attribute? :type, Base do
-          attribute? :full_string, DryTypes::String.optional
-          attribute? :string, DryTypes::String.optional
-          attribute? :length, DryTypes::Integer.optional
-          attribute? :series, DryTypes::Integer.optional
-          attribute? :code, DryTypes::Integer.optional
+          attribute? :full_string, T::String
+          attribute? :string, T::String
+          attribute? :length, T::Integer
+          attribute? :series, T::Integer
+          attribute? :code, T::Integer
         end
 
-        attribute? :genres, DryTypes::Array.of(DryTypes::Strict::String)
+        attribute? :genres, DryTypes::Array.of(T::String)
         attribute? :team, Types::Team
 
         attribute? :season, Base do
-          attribute? :string, DryTypes::String.optional
-          attribute? :code, DryTypes::Integer.optional
-          attribute? :year, DryTypes::Integer.optional
-          attribute? :week_day, DryTypes::Integer.optional
+          attribute? :string, T::String
+          attribute? :code, T::Integer
+          attribute? :year, T::Integer
+          attribute? :week_day, T::Integer
         end
 
-        attribute? :description, DryTypes::String.optional
-        attribute? :in_favorites, DryTypes::Integer.optional
+        attribute? :description, T::String
+        attribute? :in_favorites, T::Integer
 
         attribute? :blocked, Base do
-          attribute? :blocked, DryTypes::Strict::Bool
-          attribute? :bakanim, DryTypes::Strict::Bool
+          attribute? :blocked, T::Bool
+          attribute? :bakanim, T::Bool
         end
 
         attribute? :player, Player

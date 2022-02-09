@@ -1,4 +1,5 @@
 require 'anilibria/api/types/dry_types'
+require 'anilibria/api/types/t'
 require 'anilibria/api/types/base'
 require 'anilibria/api/types/team'
 require 'anilibria/api/types/title'

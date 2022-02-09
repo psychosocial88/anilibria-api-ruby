@@ -2,12 +2,12 @@ module Anilibria
   module Api
     module Types
       class YouTube < Base
-        attribute? :id, DryTypes::Strict::Integer
-        attribute? :image, DryTypes::Strict::String
-        attribute? :youtube_id, DryTypes::Strict::String
-        attribute? :comments, DryTypes::Strict::Integer
-        attribute? :views, DryTypes::Strict::Integer
-        attribute? :timestamp, DryTypes::Timestamp
+        attribute? :id, T::Integer
+        attribute? :image, T::String
+        attribute? :youtube_id, T::String
+        attribute? :comments, T::Integer
+        attribute? :views, T::Integer
+        attribute? :timestamp, T::Timestamp
       end
     end
   end
