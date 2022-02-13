@@ -69,7 +69,7 @@ module Anilibria
             attribute? :quality, Base do
               attribute? :string, T::String
               attribute? :type, T::String
-              attribute? :resolution, T::Integer
+              attribute? :resolution, T::String
               attribute? :encoder, T::String
               attribute? :lq_audio, T::Bool
             end
